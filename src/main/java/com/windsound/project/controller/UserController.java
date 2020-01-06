@@ -1,20 +1,22 @@
 package com.windsound.project.controller;
 
-import java.util.List;
-
-import com.windsound.project.common.AjaxResult;
 import com.windsound.project.controller.base.BaseController;
-import com.windsound.project.entity.User;
-import com.windsound.project.service.IUserService;
-import lombok.extern.java.Log;
+import com.windsound.project.entity.db1.User;
+import com.windsound.project.entity.db2.Word;
+import com.windsound.project.service.db1.IUserService;
+import com.windsound.project.service.db2.IWordService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
 
 /**
  * 微信用户 信息操作处理
@@ -24,28 +26,41 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/user")
+@Api(value = "接口demo")
 public class UserController extends BaseController
 {
-    private String prefix = "module/user";
 	
 	@Autowired
 	private IUserService userService;
-
-	@GetMapping()
-	public String user()
-	{
-	    return prefix + "/user";
-	}
+	@Autowired
+	private IWordService wordService;
 	
 	/**
 	 * 查询微信用户列表
 	 */
 	@GetMapping("/getUser/{userId}")
 	@ResponseBody
-	public String list(@PathVariable String userId)
+	@ApiOperation(value = "获取用户信息", notes = "通过用户ID获取用户信息")
+	public String list(@ApiParam(value = "用户id") @PathVariable String userId)
 	{
        User user=userService.selectUserById(userId);
        return user.toString();
+	}
+
+	@GetMapping("getWord/{id}")
+	@ResponseBody
+	public String getWord(){
+		Word word=wordService.selectWordById(1l);
+		return word.toString();
+	}
+
+	@GetMapping("/saveWord")
+	@ResponseBody
+	public Integer inserstWord(){
+		Word word=new Word();
+		word.setWordContent("测试事务");
+		word.setCreatTime(new Date());
+		return wordService.insertWord(word);
 	}
 	
 

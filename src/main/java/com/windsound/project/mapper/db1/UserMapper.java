@@ -1,7 +1,6 @@
-package com.windsound.project.mapper;
+package com.windsound.project.mapper.db1;
 
-import com.windsound.project.entity.User;
-import org.mybatis.spring.annotation.MapperScan;
+import com.windsound.project.entity.db1.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

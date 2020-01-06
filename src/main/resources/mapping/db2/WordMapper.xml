@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.windsound.project.mapper.db2.WordMapper">
+
+    <resultMap type="com.windsound.project.entity.db2.Word" id="WordResult">
+        <result property="id"    column="id"    />
+        <result property="wordContent"    column="word_content"    />
+        <result property="creatTime"    column="creat_time"    />
+        <result property="isDelete"    column="is_delete"    />
+    </resultMap>
+
+	<sql id="selectWordVo">
+        select id, word_content, creat_time, is_delete from w_word
+    </sql>
+
+    <select id="selectWordList" parameterType="Word" resultMap="WordResult">
+        <include refid="selectWordVo"/>
+        <where>
+            <if test="id != null "> and id = #{id}</if>
+             <if test="wordContent != null  and wordContent != '' "> and word_content = #{wordContent}</if>
+             <if test="creatTime != null "> and creat_time = #{creatTime}</if>
+             <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+         </where>
+    </select>
+
+    <select id="selectWordById" parameterType="Long" resultMap="WordResult">
+        <include refid="selectWordVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertWord" parameterType="Word">
+        insert into w_word
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="wordContent != null  and wordContent != ''  ">word_content,</if>
+			<if test="creatTime != null  ">creat_time,</if>
+			<if test="isDelete != null  ">is_delete,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="wordContent != null  and wordContent != ''  ">#{wordContent},</if>
+			<if test="creatTime != null  ">#{creatTime},</if>
+			<if test="isDelete != null  ">#{isDelete},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWord" parameterType="Word">
+        update w_word
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="wordContent != null  and wordContent != ''  ">word_content = #{wordContent},</if>
+            <if test="creatTime != null  ">creat_time = #{creatTime},</if>
+            <if test="isDelete != null  ">is_delete = #{isDelete},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteWordById" parameterType="Long">
+        delete from w_word where id = #{id}
+    </delete>
+
+    <delete id="deleteWordByIds" parameterType="String">
+        delete from w_word where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

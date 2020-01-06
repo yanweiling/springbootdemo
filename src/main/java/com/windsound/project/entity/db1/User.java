@@ -1,4 +1,4 @@
-package com.windsound.project.entity;
+package com.windsound.project.entity.db1;
 
 import lombok.Data;
 import lombok.Getter;

@@ -1,9 +1,9 @@
-package com.windsound.project.service.impl;
+package com.windsound.project.service.db1.impl;
 
 import java.util.List;
-import com.windsound.project.entity.User;
-import com.windsound.project.mapper.UserMapper;
-import com.windsound.project.service.IUserService;
+import com.windsound.project.entity.db1.User;
+import com.windsound.project.mapper.db1.UserMapper;
+import com.windsound.project.service.db1.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

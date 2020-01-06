@@ -1,6 +1,6 @@
-package com.windsound.project.service;
+package com.windsound.project.service.db1;
 
-import com.windsound.project.entity.User;
+import com.windsound.project.entity.db1.User;
 
 import java.util.List;
 
